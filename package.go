@@ -2,7 +2,6 @@
 package mnemonic
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -12,19 +11,25 @@ func init() {
 }
 
 func New() string {
-	alfabets := []string{firstConsonants, vowels, secondConsonants}
+	alfabets := order[:PrefixLength]
 	if startWithVowel() {
-		alfabets = []string{vowels, secondConsonants, vowels}
+		alfabets = order[1 : PrefixLength+1]
 	}
-	prefix := newPrefix(alfabets...)
-	return fmt.Sprintf("%s%v%v", prefix, rand.Intn(9), rand.Intn(9))
+	alf := make([]string, 0)
+	for _, a := range alfabets {
+		alf = append(alf, a)
+	}
+	for i := 0; i < DigitLength; i++ {
+		alf = append(alf, digits)
+	}
+	return NewWord(alf...)
 }
 
 func startWithVowel() bool {
 	return rand.Intn(2) == 1
 }
 
-func newPrefix(alfabets ...string) string {
+func NewWord(alfabets ...string) string {
 	buf := make([]byte, len(alfabets))
 	for i, alfabet := range alfabets {
 		buf[i] = alfabet[rand.Intn(len(alfabet))]
@@ -33,9 +38,23 @@ func newPrefix(alfabets ...string) string {
 }
 
 const (
-	DefaultWordLength = 5
+	PrefixLength = 3
+	DigitLength  = 2
 
+	digits           = "0123456789"
 	vowels           = "aeioy"
 	firstConsonants  = "bcdfghjklmnpqrstvz"
 	secondConsonants = "bcdfghjklmnpqrstvxz"
+)
+
+var (
+	order = []string{
+		firstConsonants,
+		vowels,
+		secondConsonants,
+		vowels,
+		secondConsonants,
+		vowels,
+		secondConsonants,
+	}
 )
