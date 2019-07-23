@@ -4,7 +4,12 @@ import (
 	"testing"
 
 	"github.com/gregoryv/asserter"
+	"github.com/gregoryv/qual"
 )
+
+func TestQuality(t *testing.T) {
+	qual.Standard(t)
+}
 
 func TestNew(t *testing.T) {
 	word := New()
