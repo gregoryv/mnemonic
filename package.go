@@ -11,10 +11,7 @@ func init() {
 }
 
 func New() string {
-	alfabets := order[:PrefixLength]
-	if startWithVowel() {
-		alfabets = order[1 : PrefixLength+1]
-	}
+	alfabets := prefixAlfabets(PrefixLength)
 	alf := make([]string, 0)
 	for _, a := range alfabets {
 		alf = append(alf, a)
@@ -29,6 +26,17 @@ func startWithVowel() bool {
 	return rand.Intn(2) == 1
 }
 
+func prefixAlfabets(size int) []string {
+	if size >= len(order) {
+		size = len(order) - 1
+	}
+	alfabets := order[:size]
+	if startWithVowel() {
+		alfabets = order[1 : size+1]
+	}
+	return alfabets
+}
+
 func NewWord(alfabets ...string) string {
 	buf := make([]byte, len(alfabets))
 	for i, alfabet := range alfabets {
@@ -37,10 +45,12 @@ func NewWord(alfabets ...string) string {
 	return string(buf)
 }
 
-const (
+var (
 	PrefixLength = 3
 	DigitLength  = 2
+)
 
+const (
 	digits           = "0123456789"
 	vowels           = "aeioy"
 	firstConsonants  = "bcdfghjklmnpqrstvz"
