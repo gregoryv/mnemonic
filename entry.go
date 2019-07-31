@@ -13,6 +13,7 @@ type MainEntryPoint struct {
 	DigitLen  int
 	Repeat    bool
 
+	output   io.Writer
 	exitCode ExitCode
 }
 
@@ -40,23 +41,29 @@ func (e *MainEntryPoint) InitFlags() {
 	)
 }
 
+func (e *MainEntryPoint) String() string {
+	return fmt.Sprintf(
+		"MainEntryPoint: p=%v, d=%v, r=%v, exitCode=%v",
+		e.PrefixLen, e.DigitLen, e.Repeat, e.exitCode,
+	)
+}
+
 func (e *MainEntryPoint) Enter() {
 	e.setDefaults()
-	print(New(e.PrefixLen, e.DigitLen))
+	fmt.Fprint(e.output, New(e.PrefixLen, e.DigitLen))
 	if e.Repeat {
 		for {
 			time.Sleep(300 * time.Millisecond)
-			print("\n", New(e.PrefixLen, e.DigitLen))
+			fmt.Fprint(e.output, "\n", New(e.PrefixLen, e.DigitLen))
 		}
 	}
 }
 
 func (e *MainEntryPoint) setDefaults() {
+	if e.output == nil {
+		e.output = os.Stdout
+	}
 	e.exitCode = ExitOk
-}
-
-func (e *MainEntryPoint) String() string {
-	return fmt.Sprintf("Entry: exitCode=%v", e.exitCode)
 }
 
 func (e *MainEntryPoint) fail(err error) {
