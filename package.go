@@ -10,13 +10,13 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-func New() string {
-	alfabets := prefixAlfabets(PrefixLength)
+func New(prefixLen, digitLen int) string {
+	alfabets := prefixAlfabets(prefixLen)
 	alf := make([]string, 0)
 	for _, a := range alfabets {
 		alf = append(alf, a)
 	}
-	for i := 0; i < DigitLength; i++ {
+	for i := 0; i < digitLen; i++ {
 		alf = append(alf, digits)
 	}
 	return NewWord(alf...)
@@ -45,11 +45,6 @@ func NewWord(alfabets ...string) string {
 	return string(buf)
 }
 
-var (
-	PrefixLength = 3
-	DigitLength  = 2
-)
-
 const (
 	digits           = "0123456789"
 	vowels           = "aeioy"
@@ -58,6 +53,7 @@ const (
 )
 
 var (
+	// dictates max len of prefix
 	order = []string{
 		firstConsonants,
 		vowels,

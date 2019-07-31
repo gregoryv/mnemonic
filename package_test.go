@@ -12,21 +12,23 @@ func TestQuality(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-	word := New()
-	exp := PrefixLength + DigitLength
+	prefixLen := 4
+	digitLen := 2
+	word := New(prefixLen, digitLen)
+	exp := prefixLen + digitLen
 	if len(word) != exp {
 		t.Error(len(word), "expected", exp)
 	}
 }
 
 func Test_prefixAlfabets(t *testing.T) {
+	maxPrefixLen := len(order) - 1
 	cases := []struct {
 		size int
 		exp  int
 	}{
 		{3, 3},
-		{PrefixLength, PrefixLength},
-		{100, 6},
+		{100, maxPrefixLen},
 	}
 	assert := asserter.New(t)
 	for _, c := range cases {
