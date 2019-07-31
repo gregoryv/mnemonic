@@ -5,8 +5,8 @@ import "github.com/gregoryv/stamp"
 func init() {
     s := &stamp.Stamp{
 	    Package: "main",
-	    Revision: "ab23239",
-	    ChangelogVersion: "0.1.0",
+	    Revision: "6c20c0e",
+	    ChangelogVersion: "Unreleased",
     }
     stamp.Use(s)
 }
