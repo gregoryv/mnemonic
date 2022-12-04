@@ -1,4 +1,5 @@
-// package mnemonic provides word generators which are easily remembered.
+// Package mnemonic provides word generators for easily remembered and
+// pronouncible.
 package mnemonic
 
 import (
@@ -10,6 +11,7 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
+// New returns a mnemonic
 func New(prefixLen, digitLen int) string {
 	alfabets := prefixAlfabets(prefixLen)
 	alf := make([]string, 0)
@@ -37,6 +39,7 @@ func prefixAlfabets(size int) []string {
 	return alfabets
 }
 
+// NewWord returns a random string based on one letter from each alfabet.
 func NewWord(alfabets ...string) string {
 	buf := make([]byte, len(alfabets))
 	for i, alfabet := range alfabets {
@@ -45,6 +48,7 @@ func NewWord(alfabets ...string) string {
 	return string(buf)
 }
 
+// todo make these public and reusable, to e.g. also combine uppercase letters
 const (
 	digits           = "0123456789"
 	vowels           = "aeioy"
