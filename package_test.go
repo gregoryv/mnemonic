@@ -7,6 +7,8 @@ import (
 	"github.com/gregoryv/qual"
 )
 
+// todo add example with fixed randomizer
+
 func TestQuality(t *testing.T) {
 	qual.Standard(t)
 }
@@ -22,7 +24,7 @@ func TestNew(t *testing.T) {
 }
 
 func Test_prefixAlfabets(t *testing.T) {
-	maxPrefixLen := len(order) - 1
+	maxPrefixLen := len(Order) - 1
 	cases := []struct {
 		size int
 		exp  int

@@ -19,7 +19,7 @@ func New(prefixLen, digitLen int) string {
 		alf = append(alf, a)
 	}
 	for i := 0; i < digitLen; i++ {
-		alf = append(alf, digits)
+		alf = append(alf, Digits)
 	}
 	return NewWord(alf...)
 }
@@ -29,12 +29,12 @@ func startWithVowel() bool {
 }
 
 func prefixAlfabets(size int) []string {
-	if size >= len(order) {
-		size = len(order) - 1
+	if size >= len(Order) {
+		size = len(Order) - 1
 	}
-	alfabets := order[:size]
+	alfabets := Order[:size]
 	if startWithVowel() {
-		alfabets = order[1 : size+1]
+		alfabets = Order[1 : size+1]
 	}
 	return alfabets
 }
@@ -50,21 +50,21 @@ func NewWord(alfabets ...string) string {
 
 // todo make these public and reusable, to e.g. also combine uppercase letters
 const (
-	digits           = "0123456789"
-	vowels           = "aeioy"
-	firstConsonants  = "bcdfghjklmnpqrstvz"
-	secondConsonants = "bcdfghjklmnpqrstvxz"
+	Digits           = "0123456789"
+	Vowels           = "aeioy"
+	FirstConsonants  = "bcdfghjklmnpqrstvz"
+	SecondConsonants = "bcdfghjklmnpqrstvxz"
 )
 
 var (
-	// dictates max len of prefix
-	order = []string{
-		firstConsonants,
-		vowels,
-		secondConsonants,
-		vowels,
-		secondConsonants,
-		vowels,
-		secondConsonants,
+	// todo, generate instead in func New based on len
+	Order = []string{
+		FirstConsonants,
+		Vowels,
+		SecondConsonants,
+		Vowels,
+		SecondConsonants,
+		Vowels,
+		SecondConsonants,
 	}
 )
