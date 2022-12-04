@@ -1,4 +1,4 @@
-module xwing.7de.se/mnemonic
+module github.com/gregoryv/mnemonic
 
 go 1.19
 
