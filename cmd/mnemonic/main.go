@@ -1,17 +1,32 @@
 package main
 
 import (
-	"flag"
-	"os"
+	"fmt"
+	"time"
 
-	"xwing.7de.se/mnemonic"
+	"github.com/gregoryv/cmdline"
+	"github.com/gregoryv/mnemonic"
 )
 
 func main() {
-	me := &mnemonic.MainEntryPoint{}
-	me.InitFlags()
-	flag.Usage = me.Usage(os.Stderr)
-	flag.Parse()
-	me.Enter()
-	me.Exit()
+	var (
+		cli    = cmdline.NewBasicParser()
+		digits = cli.Option("-d, --digits",
+			"number of digits after prefix").Int(2)
+
+		prefixLen = cli.Option("-p, --prefix-len",
+			"number of letters starting the word").Int(3)
+
+		repeat = cli.Option("-r, --repeat",
+			"repeat generating words until interrupted with ctrl+c").Bool()
+	)
+	cli.Parse()
+
+	fmt.Println(mnemonic.New(prefixLen, digits))
+	if repeat {
+		for {
+			time.Sleep(300 * time.Millisecond)
+			fmt.Println(mnemonic.New(prefixLen, digits))
+		}
+	}
 }
