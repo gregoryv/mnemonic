@@ -2,3 +2,5 @@
 .#*
 !cmd/mnemonic/
 *.tgz
+
+dist/
