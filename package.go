@@ -24,16 +24,15 @@ func New(prefixLen, digitLen int) string {
 	return NewWord(alf...)
 }
 
-func startWithVowel() bool {
-	return rand.Intn(2) == 1
-}
-
+// prefixAlfabets returns a set of letter character strings in a
+// specific order to be used while generating a word.
 func prefixAlfabets(size int) []string {
 	if size >= len(Order) {
 		size = len(Order) - 1
 	}
 	alfabets := Order[:size]
-	if startWithVowel() {
+	startWithVowel := rand.Intn(2) == 1
+	if startWithVowel {
 		alfabets = Order[1 : size+1]
 	}
 	return alfabets
