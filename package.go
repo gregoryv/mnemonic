@@ -66,5 +66,13 @@ var (
 		SecondConsonants,
 		Vowels,
 		SecondConsonants,
+		Vowels,
+		SecondConsonants,
+		Vowels,
+		SecondConsonants,
+		Vowels,
+		SecondConsonants,
+		Vowels,
+		SecondConsonants,
 	}
 )
