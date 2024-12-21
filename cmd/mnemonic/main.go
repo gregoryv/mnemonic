@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sort"
+	"strings"
 
 	"github.com/gregoryv/cmdline"
 	"github.com/gregoryv/mnemonic"
@@ -17,16 +18,44 @@ func main() {
 		prefixLen = cli.Option("-p, --prefix-len",
 			"number of letters starting the word").Int(3)
 
-		repeat = cli.Option("-r, --repeat",
-			"repeat generating words until interrupted with ctrl+c").Bool()
+		count = cli.Option("-c, --count",
+			"number of generated mnemonics").Int(1)
+
+		begin = cli.Option("-b, --begin-with",
+			"must start with letter").String("")
 	)
 	cli.Parse()
 
-	fmt.Println(mnemonic.New(prefixLen, digits))
-	if repeat {
-		for {
-			time.Sleep(300 * time.Millisecond)
-			fmt.Println(mnemonic.New(prefixLen, digits))
+	// generate mnemonics
+	result := make([]string, 0, count)
+	for {
+		word := mnemonic.New(prefixLen, digits)
+		if !strings.HasPrefix(word, begin) {
+			continue
 		}
+		result = append(result, word)
+		if len(result) == count {
+			break
+		}
+	}
+	// sort them
+	sort.Strings(result)
+
+	// print them to stdout
+	last := result[0][0]
+	maxLineWords := 8
+	var n int
+	for _, word := range result {
+		n++
+		if v := word[0]; v != last || n == maxLineWords {
+			fmt.Println()
+			last = v
+			n = 0
+		}
+		fmt.Print(word, " ")
+	}
+	// final new line only if needed
+	if count%2 != 0 || n < count / 8{
+		fmt.Println()
 	}
 }
